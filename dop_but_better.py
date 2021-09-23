@@ -43,6 +43,7 @@ def zaplatka(str_num):
 
 def ten_and_single(razr_list, str_num):
     #print(razr_list)
+    global layer
     if razr_list[-2]=='1' and razr_list[-1]!='0':
         str_num = razr_1x(razr_list[-1])
     elif layer!=2:
@@ -59,7 +60,7 @@ def thousands(razr_list):
     if razr_list[-4]=='2': layer=0;return "две тысячи"
     if razr_list[-4]=='3': layer=0;return "три тысячи"
     if razr_list[-4]=='4': layer=0;return "четыре тысячи"
-    if razr_list[-4]=='0': layer=0;return ''
+    if razr_list[-4]=='0': layer=0;return 'тысяч'#fix this shit
     else:
         return singles[int(razr_list[-4])] + " тысяч"
 
@@ -82,4 +83,5 @@ def int_to_str_dict(num_tuple):
 #di = [i for i in range(90000)]
 #TODO 90000
 #print(int_to_str_dict(di))
-print(num_to_str(9000))
+num_tuple = (0,6,77,89,116,2957,10567,990999)
+print(int_to_str_dict(num_tuple))
