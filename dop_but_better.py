@@ -11,7 +11,7 @@ def num_to_str(num):
     razr_list = list(str(num))
     #f = globals["razr_"+ str(razr)]
     str_num = ''
-    if razr_list[0]=='0':
+    if razr_list==['0']:
         str_num = 'ноль'
     elif len(razr_list) ==1:
         str_num = razr_1(razr_list[-1])
@@ -26,7 +26,7 @@ def num_to_str(num):
         global layer; layer = 1
         #TODO layer must work
         if not(razr_list[-5]=='1') and (razr_list[-4]=='1'): layer = 2
-        print(layer)
+        #print(layer)
         str_num = ten_and_single(razr_list[-5:-3],str_num) +" "+ num_to_str(int(''.join(razr_list[-4:])))
     elif len(razr_list)==6:
         layer = 1
@@ -34,8 +34,12 @@ def num_to_str(num):
         if not(razr_list[-5]=='1') and (razr_list[-4]=='1'): layer = 2
         #print(layer)
         str_num = razr_3(razr_list[-6])+" "+ ten_and_single(razr_list[-5:-3],str_num) +" "+ num_to_str(int(''.join(razr_list[-4:])))
+    if len(str_num)>4 and 'ноль'in str_num:
+        pass
+    return zaplatka(str_num)
+def zaplatka(str_num):
+    if len(str_num)>4 and 'ноль' in str_num: return ' '.join(c if c != 'ноль' else 'тысяч' for c in str_num.split())
     return str_num
-
 
 def ten_and_single(razr_list, str_num):
     #print(razr_list)
@@ -78,4 +82,4 @@ def int_to_str_dict(num_tuple):
 #di = [i for i in range(90000)]
 #TODO 90000
 #print(int_to_str_dict(di))
-print(num_to_str(99000))
+print(num_to_str(9000))
