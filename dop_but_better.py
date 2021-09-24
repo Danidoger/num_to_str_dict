@@ -9,7 +9,6 @@ layer = 0
 
 def num_to_str(num):
     razr_list = list(str(num))
-    #f = globals["razr_"+ str(razr)]
     str_num = ''
     if razr_list==['0']:
         str_num = 'ноль'
@@ -24,21 +23,28 @@ def num_to_str(num):
         str_num = " ".join(str_num.split())
     elif len(razr_list)==5:
         global layer; layer = 1
-        #TODO layer must work
         if not(razr_list[-5]=='1') and (razr_list[-4]=='1'): layer = 2
-        #print(layer)
-        str_num = ten_and_single(razr_list[-5:-3],str_num) +" "+ num_to_str(int(''.join(razr_list[-4:])))
+        if razr_list[-4] == '0': a='тысяч '
+        else: a = ' '
+        str_num = ten_and_single(razr_list[-5:-3],str_num) +a+ num_to_str(int(''.join(razr_list[-4:])))
     elif len(razr_list)==6:
         layer = 1
-        #TODO layer must work
         if not(razr_list[-5]=='1') and (razr_list[-4]=='1'): layer = 2
-        #print(layer)
-        str_num = razr_3(razr_list[-6])+" "+ ten_and_single(razr_list[-5:-3],str_num) +" "+ num_to_str(int(''.join(razr_list[-4:])))
-    if len(str_num)>4 and 'ноль'in str_num:
-        pass
+        if razr_list[-4] == '0': a=' тысяч '
+        else: a = ' '
+        str_num = razr_3(razr_list[-6])+" "+ ten_and_single(razr_list[-5:-3],str_num) +a+ num_to_str(int(''.join(razr_list[-4:])))
+    elif len(razr_list)>=7:
+        return 'много'
     return zaplatka(str_num)
 def zaplatka(str_num):
     if len(str_num)>4 and 'ноль' in str_num: return ' '.join(c if c != 'ноль' else 'тысяч' for c in str_num.split())
+    return str_num
+
+def more_zaplatka(str_num):
+    if str_num.split().count('тысяч')>1:
+        str_num = str_num.replace(' тысяч','')
+        str_num = str_num.split(); str_num.append('тысяч')
+        str_num = " ".join(str_num)
     return str_num
 
 def ten_and_single(razr_list, str_num):
@@ -60,7 +66,7 @@ def thousands(razr_list):
     if razr_list[-4]=='2': layer=0;return "две тысячи"
     if razr_list[-4]=='3': layer=0;return "три тысячи"
     if razr_list[-4]=='4': layer=0;return "четыре тысячи"
-    if razr_list[-4]=='0': layer=0;return 'тысяч'#fix this shit
+    if razr_list[-4]=='0': layer=0;return 'тысяч'
     else:
         return singles[int(razr_list[-4])] + " тысяч"
 
@@ -77,11 +83,8 @@ def razr_1x(a):
 
 
 def int_to_str_dict(num_tuple):
-    int_to_str_dict = {i: num_to_str(i) for i in num_tuple}
+    int_to_str_dict = {i: more_zaplatka(num_to_str(i)) for i in num_tuple}
     return int_to_str_dict
 
-#di = [i for i in range(90000)]
-#TODO 90000
-#print(int_to_str_dict(di))
-num_tuple = (0,6,77,89,116,2957,10567,990999)
+num_tuple = (0, 6, 15, 64, 157, 1203, 11567,21999,211000,999999)
 print(int_to_str_dict(num_tuple))
